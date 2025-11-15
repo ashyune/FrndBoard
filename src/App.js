@@ -1,3 +1,5 @@
+import Track from "./components/Track";
+
 function App() {
   return (
     <div className="min-h-screen bg-[#52357B] text-white flex flex-col items-center justify-center">
@@ -7,37 +9,10 @@ function App() {
       <br></br>
         <div className="flex flex-col gap-3 w-full max-w-3xl">
           {/* Track 1 */}
-          <div className="grid grid-cols-4 gap-2">
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-          </div>
-
-          {/* Track 2 */}
-          <div className="grid grid-cols-4 gap-2">
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-          </div>
-
-          {/* Track 3 */}
-          <div className="grid grid-cols-4 gap-2">
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-          </div>
-
-          {/* Track 4 */}
-          <div className="grid grid-cols-4 gap-2">
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-            <div className="h-16 bg-[#648DB3] rounded-md"></div>
-          </div>
-  
+          <Track/>
+          <Track/>
+          <Track/>
+          <Track/>
         </div>
     </div>
   );

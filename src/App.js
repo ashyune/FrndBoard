@@ -16,6 +16,8 @@ function App() {
 
   const [audioBuffers, setAudioBuffers] = useState({});
 
+  const semitonesPerRow = [-6, -3, 0, +3];
+
   // Preload all audio safely
   useEffect(() => {
     const loadAudio = async () => {
@@ -50,7 +52,7 @@ function App() {
   }, []);
 
   // Play a sound
-  const playSound = async (soundName) => {
+  const playSound = async (soundName, rowIndex = 2) => {
     const buffer = audioBuffers[soundName];
     if (!buffer) {
       console.warn("Sound not loaded:", soundName);
@@ -62,9 +64,13 @@ function App() {
     }
 
     const source = audioContext.current.createBufferSource();
-    source.buffer = buffer;
+    source.buffer = audioBuffers[soundName];
+    const semitones = semitonesPerRow[rowIndex];
+    const playbackRate = Math.pow(2, semitones / 12); //this is some math formula for pitch shifting apparently ;-;
+    source.playbackRate.value = playbackRate;
+
     source.connect(audioContext.current.destination);
-    source.start(0);
+    source.start();
   };
 
   const addTrack = () =>
@@ -101,14 +107,14 @@ function App() {
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => {
                   const droppedSound = e.dataTransfer.getData("text/plain");
-                  playSound(droppedSound); // preview
+                  playSound(droppedSound, tIndex); // preview
                   const newTracks = [...tracks];
                   newTracks[tIndex][sIndex] = droppedSound;
                   setTracks(newTracks);
                 }}
                 onClick={() => {
                   const sound = tracks[tIndex][sIndex];
-                  if (sound) playSound(sound);
+                  if (sound) playSound(sound, tIndex);
                 }}
               >
                 {slot || "-"}

@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const empty_col = [null, null, null, null];
   const [tracks, setTracks] = useState([[...empty_col]]);
-  const sounds = ["Meow", "Woof", "Moo"];
+  const [sounds, setSounds] = useState(["Meow", "Woof", "Moo"]);
 
   const soundFiles = {
     Meow: "/sounds/meow.mp3",
@@ -104,6 +105,22 @@ function App() {
     });
   };
 
+  const handleUpload = async(e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const arrayBuffer = await file.arrayBuffer();
+    const decoded = await audioContext.current.decodeAudioData(arrayBuffer);
+
+    setAudioBuffers((prev) => ({
+      ...prev,
+      [file.name]: decoded,
+    }));
+
+    setSounds(prev => [...prev, file.name]);
+    console.log("Uploaded:", file.name);
+  };
+
   return (
     
     <div className="min-h-screen bg-[#52357B] text-white flex flex-col p-10">
@@ -111,6 +128,7 @@ function App() {
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         sounds={sounds}
+        handleUpload={handleUpload}
       />
 
       <h1 className="text-6xl font-bold text-center text-[#B2D8CE] mb-10">
@@ -164,46 +182,6 @@ function App() {
       </div>
 
     </div>
-  );
-}
-
-function Sidebar({ sidebarOpen, setSidebarOpen, sounds }) {
-  return (
-    <>
-    
-      <div className="flex items-center mb-6">
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 bg-gray-700 rounded hover:bg-gray-600 mr-4"
-        >
-          <div className="w-6 h-0.5 bg-white mb-1"></div>
-          <div className="w-6 h-0.5 bg-white mb-1"></div>
-          <div className="w-6 h-0.5 bg-white"></div>
-        </button>
-
-        <h2 className="text-2xl font-bold text-white">Tracks</h2>
-      </div>
-
-      <div
-        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white p-4 transition-transform duration-300 ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <h2 className="text-xl font-bold mb-4">Sound Library</h2>
-        <ul>
-          {sounds.map((sound, index) => (
-            <li
-              key={index}
-              draggable
-              onDragStart={(e) => e.dataTransfer.setData("text/plain", sound)}
-              className="bg-[#648DB3] p-2 my-1 rounded hover:bg-[#79b2c7] cursor-pointer"
-            >
-              {sound}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
   );
 }
 

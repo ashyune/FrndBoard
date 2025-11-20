@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Sidebar from "./components/Sidebar";
+import LetterAnim from "./components/LetterAnim";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -185,9 +186,9 @@ function App() {
         handleUpload={handleUpload}
       />
 
-      <h1 className="font-bbh text-7xl font-bold text-center text-[#B2D8CE] mb-10">
-        FrndBoard
-      </h1>
+      <div >
+        <LetterAnim text="FrndBoard" />
+      </div>
 
       <div className="flex justify-center mb-6">
         <button

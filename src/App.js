@@ -24,6 +24,12 @@ function App() {
   // semitones for each row (4 rows), top to bottom
   const semitonesPerRow = [6, 3, 0, -3]; 
     
+  const getShortName = (name, maxLength = 8) => {
+    if(name.length <= maxLength) return name;
+    const extIndex = name.lastIndexOf(".");
+    const ext = extIndex !== -1 ? name.slice(extIndex) : "";
+    return name.slice(0, maxLength - ext.length - 3) + "..." + ext;
+  };
   // preload all audio safely
   useEffect(() => {
     const loadAudio = async () => {
@@ -205,7 +211,7 @@ function App() {
                   if (sound) playSound(sound, rowIndex);
                 }}
               >
-                {slot || "-"}
+                {slot ? getShortName(slot) : "-"}
               </div>
             ))}
           </div>

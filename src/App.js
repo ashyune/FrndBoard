@@ -94,26 +94,23 @@ function App() {
 
     const startTime = audioContext.current.currentTime;
 
-    tracks.forEach((track, colIndex) => {
-      track.forEach((soundName, rowIndex) => {
-        if (!soundName) return;
+    for (let colIndex = 0; colIndex < tracks.length; colIndex++) {
+      const column = tracks[colIndex];
+      for (let rowIndex = 0; rowIndex < column.length; rowIndex++) {
+        const soundName = column[rowIndex];
+        if (!soundName) continue;
 
         const source = audioContext.current.createBufferSource();
         source.buffer = audioBuffers[soundName];
-
-        const semitones = semitonesPerRow[rowIndex];
-        const playbackRate = Math.pow(2, semitones / 12);
-        source.playbackRate.value = playbackRate;
-
+        source.playbackRate.value = Math.pow(2, semitonesPerRow[rowIndex] / 12);
         source.connect(audioContext.current.destination);
-        const time = colIndex * beat_duration;
-        source.start(startTime + time);
-      });
-    });
+
+        source.start(startTime + colIndex * beat_duration); // first column plays immediately
+      }
+    }
 
     startVisualPlayhead();
-
-    setTimeout(stopVisualPlayhead, tracks.length * beat_duration * 1000); 
+    setTimeout(stopVisualPlayhead, tracks.length * beat_duration * 1000);
   };
 
   const handleUpload = async(e) => {

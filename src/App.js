@@ -92,7 +92,14 @@ function App() {
     }
     setTracks(prev => [...prev, Array(4).fill(null)]);
   };
-  const beat_duration = 0.5; 
+
+  const [bpm, setBpm] = useState(120);
+  const beat_duration = 60/bpm; // seconds 
+
+  //looping!
+  const [isLooping, setIsLooping] = useState(false);
+  const loopTimeout = useRef(null);
+  
   const handlePlay = async () => {
     if (audioContext.current.state === "suspended") {
       await audioContext.current.resume();
@@ -116,7 +123,25 @@ function App() {
     }
 
     startVisualPlayhead();
-    setTimeout(stopVisualPlayhead, tracks.length * beat_duration * 1000);
+
+    const totalDuration = tracks.length * beat_duration * 1000;
+    
+    if(loopTimeout.current) clearTimeout(loopTimeout.current);
+    loopTimeout.current = setTimeout(() => {
+      stopVisualPlayhead();
+      if(isLooping) handlePlay();
+    }, totalDuration);
+  };
+
+  const toggleLoop = () => {
+    setIsLooping(prev => {
+      if(prev && loopTimeout.current) {
+        clearTimeout(loopTimeout.current);
+        loopTimeout.current = null;
+        stopVisualPlayhead();
+      }
+      return !prev;
+    });
   };
 
   const handleUpload = async(e) => {
@@ -152,7 +177,7 @@ function App() {
 
   return (
     
-    <div className="min-h-screen bg-[#52357B] text-white flex flex-col p-10">
+    <div className="min-h-screen bg-[#3b2261] text-white flex flex-col p-10">
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
@@ -188,6 +213,16 @@ function App() {
         >
           Reset Tracks
         </button>
+        
+        <button
+          onClick={toggleLoop}
+            className={`font-bold text-white px-4 py-2 rounded transition-colors
+              ${isLooping ? "bg-[#64b39b] hover:bg-[#79c7aa]" : "bg-[#648DB3] hover:bg-[#79b2c7]"}
+            `}
+        >
+          {isLooping ? "Stop Loop" : "Loop"}
+        </button>
+
       </div>
 
       <div
@@ -250,6 +285,21 @@ function App() {
             ))}
           </div>
         ))}
+      </div>
+
+      <div className="flex justify-center items-center mt-8">
+        <div className="flex items-center gap-4">
+          <label className="font-bold">BPM:</label>
+          <input
+            type="range"
+            min="30"
+            max="300"
+            value={bpm}
+            onChange={(e) => setBpm(Number(e.target.value))}
+            className="w-48 accent-[#648DB3]"
+          />
+          <span className="w-12 text-center font-bold">{bpm} BPM</span>
+        </div>
       </div>
 
     </div>

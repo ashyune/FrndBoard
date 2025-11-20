@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&family=Sixtyfour&display=swap');
+
+.font-bbh {
+  font-family: 'BBH Sans Hegarty', sans-serif;
+}
+.font-sixtyfour {
+  font-family: 'Sixtyfour', monospace;
+}

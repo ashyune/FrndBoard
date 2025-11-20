@@ -181,6 +181,13 @@ function App() {
         >
            Play :D
         </button>
+
+        <button
+          onClick={()=> setTracks([Array(4).fill(null)])}
+          className="bg-[#648DB3] hover:bg-[#79b2c7] font-bold text-white px-6 py-2 rounded mr-4"
+        >
+          Reset Tracks
+        </button>
       </div>
 
       <div
@@ -188,7 +195,15 @@ function App() {
         style={{ gridTemplateColumns: `repeat(${tracks.length}, 1fr)` }}
       >
         {tracks.map((column, colIndex) => (
-          <div key={colIndex} className="flex flex-col gap-3">
+          <div key={colIndex} className="flex flex-col gap-3 relative">
+
+            {/*Removing individual columns*/}
+            <button
+              className="absolute top-1 right-1 text-white bg-[#5459AC] rounded w-4 h-4 text-xs flex items-center justify-center hover:bg-[#484d96  ] z-10"
+              onClick={() => setTracks(prev => prev.filter((_, i) => i !== colIndex))}
+            >
+              ✕
+            </button>
             {column.map((slot, rowIndex) => (
               <div
                 key={rowIndex}
@@ -209,6 +224,25 @@ function App() {
                 onClick={() => {
                   const sound = tracks[colIndex][rowIndex];
                   if (sound) playSound(sound, rowIndex);
+                }}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  setTracks(prevTracks => {
+                    return prevTracks.map((col, cIndex) => {
+                      if (cIndex !== colIndex) return col; 
+
+                      const newCol = Array.isArray(col) ? [...col] : Array(4).fill(null);
+                      newCol[rowIndex] = null;
+                      return newCol;
+                    });
+                  });
+                }}
+                style={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                  cursor: "pointer",
                 }}
               >
                 {slot ? getShortName(slot) : "-"}

@@ -9,7 +9,6 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [instructionsOpen, setInstructionsOpen] = useState(true);
 
-  const empty_col = [null, null, null, null];
   const [tracks, setTracks] = useState([Array(4).fill(null)]);
   const [sounds, setSounds] = useState(["Meow", "Woof1", "Woof2", "Moo"]);
   const [uploadedSounds, setUploadedSounds] = useState([]);
@@ -30,7 +29,15 @@ function App() {
 
   // semitones for each row (4 rows), top to bottom
   const semitonesPerRow = [6, 3, 0, -3]; 
-    
+  
+  const [bpm, setBpm] = useState(120);
+  const beat_duration = 60/bpm; // seconds 
+  const [exportLoopCount, setExportLoopCount] = useState(1);
+
+  //looping!
+  const [isLooping, setIsLooping] = useState(false);
+  const loopTimeout = useRef(null);
+  
   const getShortName = (name, maxLength = 8) => {
     if(name.length <= maxLength) return name;
     const extIndex = name.lastIndexOf(".");
@@ -46,6 +53,7 @@ function App() {
     }
     return int16;
   }
+
   // preload all audio safely
   useEffect(() => {
     const loadAudio = async () => {
@@ -109,14 +117,6 @@ function App() {
     setTracks(prev => [...prev, Array(4).fill(null)]);
   };
 
-  const [bpm, setBpm] = useState(120);
-  const beat_duration = 60/bpm; // seconds 
-  const [exportLoopCount, setExportLoopCount] = useState(1);
-
-  //looping!
-  const [isLooping, setIsLooping] = useState(false);
-  const loopTimeout = useRef(null);
-  
   const handlePlay = async () => {
     if (audioContext.current.state === "suspended") {
       await audioContext.current.resume();
@@ -317,6 +317,7 @@ function App() {
           </div>
         ))}
       </div>
+      
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}

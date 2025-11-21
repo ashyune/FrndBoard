@@ -455,26 +455,27 @@ function App() {
         </div>
       </div>
       
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 items-center font-bold text-white px-6 py-3">
-        <div className="flex items-center gap-2 bg-[#3b2261] px-3 py-2 rounded border border-[#5B9BB5]">
-          <label className="text-sm">Export loops:</label>
-          <input
-            type="number"
-            min="1"
-            max="10"
-            value={exportLoopCount}
-            onChange={(e) => setExportLoopCount(Number(e.target.value))}
-            className="w-16 px-2 py-1 rounded bg-[#2a1a47] border border-[#5B9BB5] text-center"
-          />
+      <div className="flex justify-center mt-6 mb-8">
+        <div className="flex gap-4 items-center font-bold text-white px-6 py-3">
+          <div className="flex items-center gap-2 bg-[#3b2261] px-3 py-2 rounded border border-[#5B9BB5]">
+            <label className="text-sm">Export loops:</label>
+            <input
+              type="number"
+              min="1"
+              max="10"
+              value={exportLoopCount}
+              onChange={(e) => setExportLoopCount(Number(e.target.value))}
+              className="w-16 px-2 py-1 rounded bg-[#2a1a47] border border-[#5B9BB5] text-center"
+            />
+          </div>
+          <button onClick={exportWav} className="bg-[#5B9BB5] rounded shadow-lg hover:bg-[#76b8d4] px-4 py-2">
+            Export as WAV
+          </button>
+          <button onClick={exportMp3} className="bg-[#5B9BB5] rounded shadow-lg hover:bg-[#76b8d4] px-4 py-2">
+            Export as MP3
+          </button>
         </div>
-        <button onClick={exportWav} className="bg-[#5B9BB5] rounded shadow-lg z-50 hover:bg-[#76b8d4] px-4 py-2">
-          Export as WAV
-        </button>
-        <button onClick={exportMp3} className="bg-[#5B9BB5] rounded shadow-lg z-50 hover:bg-[#76b8d4] px-4 py-2">
-          Export as MP3
-        </button>
       </div>
-
     </div>
   );
 }

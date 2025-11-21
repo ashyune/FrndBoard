@@ -13,6 +13,8 @@ return (
 
             <div className="space-y-6">
                 <section>
+                    <h3 className="text-2xl font-bold text-[#5B9BB5] text-center mb-4">---------- Please Use Fullscreen :') ----------</h3>
+                    <hr className="border-[#5B9BB5] mb-3"  />
                     <h3 className="text-xl font-bold text-[#5B9BB5] mb-2">✧ Adding Sounds</h3>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                         <li>Open the sidebar by clicking the menu button (Tracks)</li>

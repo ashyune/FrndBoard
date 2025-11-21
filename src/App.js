@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Sidebar from "./components/Sidebar";
 import LetterAnim from "./components/LetterAnim";
+
 import toWav from "audiobuffer-to-wav";
 
 function App() {
@@ -32,6 +33,15 @@ function App() {
     const ext = extIndex !== -1 ? name.slice(extIndex) : "";
     return name.slice(0, maxLength - ext.length - 3) + "..." + ext;
   };
+
+  const Float32ToInt16 = (float32Array) => {
+    const int16 = new Int16Array(float32Array.length);
+    for (let i = 0; i < float32Array.length; i++) {
+      let s = Math.max(-1, Math.min(1, float32Array[i]));
+      int16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+    }
+    return int16;
+  }
   // preload all audio safely
   useEffect(() => {
     const loadAudio = async () => {
@@ -207,7 +217,7 @@ function App() {
         }
       });
     }
-
+    
     const wavArrayBuffer = toWav(finalBuffer);
     const blob = new Blob([wavArrayBuffer], { type: "audio/wav" });
     const url = URL.createObjectURL(blob);
@@ -215,6 +225,56 @@ function App() {
     const a = document.createElement("a");
     a.href = url;
     a.download = "frndboard_export.wav";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const exportMp3 = () => {
+    if(tracks.length === 0) return;
+
+    const sampleRate = audioContext.current.sampleRate;
+    const numChannels = 1;
+    const totalLength = Math.ceil(tracks.length * beat_duration * sampleRate);
+    const buffer = audioContext.current.createBuffer(numChannels, totalLength, sampleRate);
+    
+    for (let colIndex = 0; colIndex < tracks.length; colIndex++) {
+      const column = tracks[colIndex];
+      column.forEach((soundName, rowIndex) => {
+        if (!soundName) return;
+        const srcBuffer = audioBuffers[soundName];
+        if (!srcBuffer) return;
+
+        const startSample = Math.floor(colIndex * beat_duration * sampleRate);
+        const playbackRate = Math.pow(2, semitonesPerRow[rowIndex] / 12);
+
+        for (let i = 0; i < srcBuffer.length; i++) {
+          const sampleIndex = startSample + Math.floor(i / playbackRate);
+          if (sampleIndex < buffer.length) {
+            buffer.getChannelData(0)[sampleIndex] += srcBuffer.getChannelData(0)[i];
+          }
+        }
+      });
+    }
+
+    const pcmData = buffer.getChannelData(0);
+    const mp3Encoder = new window.lamejs.Mp3Encoder(1, sampleRate, 128);    
+    const chunkSize = 1152;
+    let mp3Data = [];
+
+    for (let i = 0; i < pcmData.length; i += chunkSize) {
+      const chunk = pcmData.subarray(i, i + chunkSize);
+      const mp3buf = mp3Encoder.encodeBuffer(Float32ToInt16(chunk));
+      if (mp3buf.length > 0) mp3Data.push(mp3buf);
+    }
+
+    const mp3buf = mp3Encoder.flush();
+    if (mp3buf.length > 0) mp3Data.push(mp3buf);
+
+    const blob = new Blob(mp3Data, { type: "audio/mp3" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "FrndBoardExport.mp3";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -349,7 +409,7 @@ function App() {
         <button onClick={exportWav} className="bg-[#648DB3] rounded shadow-lg z-50 hover:bg-[#79b2c7] px-4 py-2 rounded">
           Export as WAV
         </button>
-        <button onClick={exportWav} className="bg-[#648DB3] rounded shadow-lg z-50 hover:bg-[#79b2c7] px-4 py-2 rounded">
+        <button onClick={exportMp3} className="bg-[#648DB3] rounded shadow-lg z-50 hover:bg-[#79b2c7] px-4 py-2 rounded">
           Export as MP3
         </button>
       </div>

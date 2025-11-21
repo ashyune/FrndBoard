@@ -5,7 +5,7 @@ return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
         <div className="bg-[#2a1a47] text-white p-8 rounded-lg shadow-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-3xl font-bold text-[#ddc2fc]">How to create your own tracks!</h2>
+                <h2 className="text-3xl font-bold text-[#ddc2fc]">Welcome to FrndBoard :3</h2>
                 <button onClick={onClose} className="text-3xl hover:text-[#ddc2fc]">
                     ✕
                 </button>
@@ -46,6 +46,7 @@ return (
                 <section>
                     <h3 className="text-xl font-bold text-[#5B9BB5] mb-2">✧ Playback</h3>
                     <ul className="list-disc list-inside space-y-1 ml-2">
+                        <li className="font-bold">!!! Currently, while loop is ON - tracks cannot be removed and bpm cannot be changed.</li>
                         <li>Click "Play :D" to hear your track yayay!</li>
                         <li>
                             Click "Loop" to repeat your track continuously
@@ -53,15 +54,19 @@ return (
                                 <li className="italic">Note: loop feature may be a lil buggy sorry ;-;</li>
                             </ul>
                         </li>
-                        <li>Click "Stop Loop" to stop looping</li>
+                        <li>Click "Stop Loop" to stop looping (wow who would've thought :p)</li>
                         <li>Adjust BPM (30-300) with the slider to change tempo</li>
-                        <li className="font-bold">!!! Currently, while loop is ON - tracks cannot be removed and bpm cannot be changed.</li>
                     </ul>
                 </section>
 
                 <section>
                     <h3 className="text-xl font-bold text-[#5B9BB5] mb-2">✧ Exporting</h3>
                     <ul className="list-disc list-inside space-y-1 ml-2">
+                        <li>Choose the number of loops to export your track with
+                            <ul className="list-none ml-6 mt-1">
+                                <li className="italic">(min: 1 loop, max: 10 loops)</li>
+                            </ul> 
+                        </li>
                         <li>Click "Export as WAV" for lossless audio</li>
                         <li>Click "Export as MP3" for compressed audio</li>
                     </ul>
@@ -73,7 +78,7 @@ return (
                         <li>Different rows play the same sound at different pitches</li>
                         <li>Try layering sounds in the same column :D</li>
                         <li>Please ignore the sample sounds lmao ty</li>
-                        <li>Do share your exported tracks with us everyone hehe</li>
+                        <li>Do share your exported tracks with everyone hehe, enjoyy!</li>
                     </ul>
                 </section>
             </div>
@@ -83,7 +88,7 @@ return (
                     onClick={onClose}
                     className="bg-[#5B9BB5] hover:bg-[#76b8d4] font-bold font-xl text-white px-8 py-3 rounded"
                 >
-                    Lessgooo
+                    Let's Gooo
                 </button>
             </div>
         </div>

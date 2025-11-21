@@ -20,6 +20,7 @@ return (
                             Use the file upload button to add your own audio files
                             <ul className="list-disc list-inside ml-6 mt-2 space-y-1">
                                 <li className="italic">Do trim your clips beforehand to your liking</li>
+                                <li className="italic">I used this for trimming - <a href="https://clideo.com/cut-audio" target="_blank" rel="noopener noreferrer" style={{color: "#d2abffff"}}>Clideo Audio Trimmer</a></li>
                                 <li className="italic">Recommended audio length - 0.1 to 1 second</li>
                             </ul>
                         </li>

@@ -374,10 +374,10 @@ function App() {
             {column.map((slot, rowIndex) => (
               <div
                 key={rowIndex}
-                className={`h-16 bg-[#648DB3] rounded hover:bg-[#79b2c7] transition-all flex items-center justify-center
+                className={`h-16 rounded transition-all flex items-center justify-center
                   ${currentStep === colIndex ?
                     "bg-[#B2D8CE] scale-105 shadow-lg" : 
-                    "bg-[#648DB3] hover:bg-[#79b2c7]"}
+                    "bg-[#5B9BB5] hover:bg-[#76b8d4]"}
                   `}
                   
                 onDragOver={(e) => e.preventDefault()}
@@ -428,13 +428,13 @@ function App() {
             max="300"
             value={bpm}
             onChange={(e) => setBpm(Number(e.target.value))}
-            className="w-48 accent-[#648DB3]"
+            className="w-48 accent-[#5b9bb5]"
           />
-          <span className="w-12 text-center font-bold">{bpm} BPM</span>
+          <span className="font-bold">{bpm}</span>
         </div>
       </div>
       
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4 font-bold text-white px-6 py-3 ">
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 font-bold text-white px-6 py-3 ">
         <button onClick={exportWav} className="bg-[#5B9BB5] rounded shadow-lg z-50 hover:bg-[#76b8d4] px-4 py-2 rounded">
           Export as WAV
         </button>

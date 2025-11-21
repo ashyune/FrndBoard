@@ -28,7 +28,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sounds, handleUpload }) {
           ✕
         </button>
 
-        <h2 className="text-xl font-bold mb-4">Sound Library</h2>
+        <h2 className="text-xl font-bold mb-4">Sound Tracks :&gt;</h2>
 
         {/* File upload */}
         <input

@@ -1,10 +1,32 @@
-# FrndBoard [Ongoing]
+# FrndBoard
 A fun, web-based soundboard that lets you turn your friends’ recorded sounds (meows, moos, weird noises or anything) into music. You can upload audio clips, assign them to pads, and play them live on an interactive grid. Built solely with frontend and browser audio APIs.
 
-# Getting Started with Create React App
+Try it out here :D - https://frndboard.netlify.app/
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Tech Stack & Tools
 
+### Frontend
+- **React.js** – Component-based UI development  
+- **Tailwind CSS** – Utility-first styling  
+- **JavaScript (ES6+)** – Logic, hooks, state management  
+- **HTML5 / JSX** – UI structure  
+- **CSS3** – Custom styling  
+
+### Audio Processing
+- **Web Audio API** – AudioContext, scheduling, playback  
+- **WAV Export (Blob-based encoding)** – Client-side WAV rendering  
+- **LameJS** – MP3 encoding  
+
+### Build & Tooling
+- **Create React App (CRA)** – Project scaffolding  
+- **Node.js** – Runtime environment  
+- **npm** – Package management  
+- **ESLint** – Linting & code quality (via CRA)  
+
+### Deployment
+- **Git & GitHub** – Version control & repository hosting  
+- **Netlify** – Hosting & continuous deployment  
+---
 ## Available Scripts
 
 In the project directory, you can run:
@@ -41,9 +63,3 @@ If you aren't satisfied with the build tool and configuration choices, you can `
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

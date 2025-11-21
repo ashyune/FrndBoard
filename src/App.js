@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Sidebar from "./components/Sidebar";
 import LetterAnim from "./components/LetterAnim";
+import toWav from "audiobuffer-to-wav";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -176,6 +177,48 @@ function App() {
     setCurrentStep(0);
   };
 
+  const exportWav = () => {
+    if(tracks.length === 0) return;
+    const sampleRate = audioContext.current.sampleRate;
+    const numChannels = 1;
+    const totalLength = Math.ceil(tracks.length * beat_duration * sampleRate);
+    const finalBuffer = audioContext.current.createBuffer(numChannels, totalLength, sampleRate);
+
+    for (let colIndex = 0; colIndex < tracks.length; colIndex++) {
+      const column = tracks[colIndex];
+      column.forEach((soundName, rowIndex) => {
+        if (!soundName) return;
+        const sourceBuffer = audioBuffers[soundName];
+        if (!sourceBuffer) return;
+
+        const playbackRate = Math.pow(2, semitonesPerRow[rowIndex] / 12);
+        const startSample = Math.floor(colIndex * beat_duration * sampleRate);
+
+        for (let channel = 0; channel < Math.min(sourceBuffer.numberOfChannels, numChannels); channel++) {
+          const inputData = sourceBuffer.getChannelData(channel);
+          const outputData = finalBuffer.getChannelData(channel);
+
+          for (let i = 0; i < inputData.length; i++) {
+            const j = startSample + i;
+            if (j < outputData.length) {
+              outputData[j] += inputData[i]; // simple additive mixing
+            }
+          }
+        }
+      });
+    }
+
+    const wavArrayBuffer = toWav(finalBuffer);
+    const blob = new Blob([wavArrayBuffer], { type: "audio/wav" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "frndboard_export.wav";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     
     <div className="min-h-screen bg-[#3b2261] text-white flex flex-col p-10">
@@ -225,7 +268,6 @@ function App() {
         </button>
 
       </div>
-
       <div
         className="w-full max-w-4xl mx-auto grid gap-4"
         style={{ gridTemplateColumns: `repeat(${tracks.length}, 1fr)` }}
@@ -301,6 +343,15 @@ function App() {
           />
           <span className="w-12 text-center font-bold">{bpm} BPM</span>
         </div>
+      </div>
+      
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4 font-bold text-white px-6 py-3 ">
+        <button onClick={exportWav} className="bg-[#648DB3] rounded shadow-lg z-50 hover:bg-[#79b2c7] px-4 py-2 rounded">
+          Export as WAV
+        </button>
+        <button onClick={exportWav} className="bg-[#648DB3] rounded shadow-lg z-50 hover:bg-[#79b2c7] px-4 py-2 rounded">
+          Export as MP3
+        </button>
       </div>
 
     </div>

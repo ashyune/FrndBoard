@@ -18,8 +18,9 @@ const LetterAnim = ({ text }) => {
 
   return (
     <h1
-      className="font-bbh text-8xl text-center mb-5 flex justify-center cursor-pointer animate-glow animate-float"
+      className="font-bbh text-8xl text-center mb-5 flex justify-center cursor-pointer animate-glow"
       onMouseEnter={handleMouseEnter}
+      style={{ textShadow: '0 0 3px #ddc2fc, 0 0 6px #ddc2fc' }}
     >
       {text.split("").map((char, i) => (
         <span key={i} className="inline-block text-[#B2D8CE]">

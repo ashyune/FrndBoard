@@ -279,18 +279,20 @@ function App() {
     URL.revokeObjectURL(url);
   };
 
-  const stars = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    top: Math.random() * 100,
-    left: Math.random() * 100,
-    size: Math.random() * 0.5 + 0.5, // for font size
-    delay: Math.random() * 3,
-    speed: ['animate-float', 'animate-float-slow', 'animate-float-fast'][Math.floor(Math.random() * 3)],
-  }));
+  const [stars] = useState(() => 
+    Array.from({ length: 50 }, (_, i) => ({
+      id: i,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      size: Math.random() * 0.5 + 0.5,
+      delay: Math.random() * 3,
+      speed: ['animate-float', 'animate-float-slow', 'animate-float-fast'][Math.floor(Math.random() * 3)],
+    }))
+  );
   
   return (
     
-    <div className="min-h-screen bg-[#3b2261] text-white flex flex-col p-10">
+    <div className="min-h-screen bg-[#3b2261] text-white flex flex-col p-10 pt-4">
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {stars.map(star => (
           <div
@@ -316,7 +318,7 @@ function App() {
         handleUpload={handleUpload}
       />
 
-      <div >
+      <div className="flex justify-center mb-5">
         <LetterAnim text="FrndBoard" />
       </div>
 
@@ -324,8 +326,8 @@ function App() {
         <button
           onClick={addTrack}
           disabled={tracks.length >= 8}
-          className={`bg-[#648DB3] hover:bg-[#79b2c7] font-bold text-white px-6 py-2 rounded mr-4
-            ${tracks.length >= 8 ? "opacity-50 cursor-not-allowed" : "hover:bg-[#79b2c7]"}
+          className={`bg-[#5B9BB5] hover:bg-[#76b8d4] font-bold text-white px-6 py-2 rounded mr-4
+            ${tracks.length >= 8 ? "opacity-50 cursor-not-allowed" : "hover:bg-[#76b8d4]"}
           `}
         >
           Add Track
@@ -333,14 +335,14 @@ function App() {
 
         <button
           onClick={handlePlay}
-          className="bg-[#648DB3] hover:bg-[#79b2c7] font-bold text-white px-6 py-2 rounded mr-4"
+          className="bg-[#5B9BB5] hover:bg-[#76b8d4] font-bold text-white px-6 py-2 rounded mr-4"
         >
            Play :D
         </button>
 
         <button
           onClick={()=> setTracks([Array(4).fill(null)])}
-          className="bg-[#648DB3] hover:bg-[#79b2c7] font-bold text-white px-6 py-2 rounded mr-4"
+          className="bg-[#5B9BB5] hover:bg-[#76b8d4] font-bold text-white px-6 py-2 rounded mr-4"
         >
           Reset Tracks
         </button>
@@ -348,7 +350,7 @@ function App() {
         <button
           onClick={toggleLoop}
             className={`font-bold text-white px-4 py-2 rounded transition-colors
-              ${isLooping ? "bg-[#64b39b] hover:bg-[#79c7aa]" : "bg-[#648DB3] hover:bg-[#79b2c7]"}
+              ${isLooping ? "bg-[#5B9BB5] hover:bg-[#76b8d4]" : "bg-[#5B9BB5] hover:bg-[#76b8d4]"}
             `}
         >
           {isLooping ? "Stop Loop" : "Loop"}
@@ -433,10 +435,10 @@ function App() {
       </div>
       
       <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4 font-bold text-white px-6 py-3 ">
-        <button onClick={exportWav} className="bg-[#648DB3] rounded shadow-lg z-50 hover:bg-[#79b2c7] px-4 py-2 rounded">
+        <button onClick={exportWav} className="bg-[#5B9BB5] rounded shadow-lg z-50 hover:bg-[#76b8d4] px-4 py-2 rounded">
           Export as WAV
         </button>
-        <button onClick={exportMp3} className="bg-[#648DB3] rounded shadow-lg z-50 hover:bg-[#79b2c7] px-4 py-2 rounded">
+        <button onClick={exportMp3} className="bg-[#5B9BB5] rounded shadow-lg z-50 hover:bg-[#76b8d4] px-4 py-2 rounded">
           Export as MP3
         </button>
       </div>

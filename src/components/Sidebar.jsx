@@ -5,7 +5,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sounds, handleUpload }) {
       <div className="flex items-center mb-6">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 bg-gray-700 rounded hover:bg-gray-600 mr-4"
+          className="p-2 bg-[#2a1a47] rounded hover:bg-[#2f1d4f] mr-4"
         >
           <div className="w-6 h-0.5 bg-white mb-1"></div>
           <div className="w-6 h-0.5 bg-white mb-1"></div>
@@ -17,7 +17,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sounds, handleUpload }) {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white p-4 transition-transform duration-300 z-50 overflow-hidden
+        className={`fixed top-0 left-0 h-full w-64 bg-[#2a1a47] text-white p-4 transition-transform duration-300 z-50 overflow-hidden
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
       >
         {/* Closing sidebar */}
@@ -45,7 +45,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sounds, handleUpload }) {
               key={index}
               draggable
               onDragStart={(e) => e.dataTransfer.setData("text/plain", sound)}
-              className="bg-[#648DB3] p-2 my-1 rounded hover:bg-[#79b2c7] cursor-pointer"
+              className="bg-[#5B9BB5] p-2 my-1 rounded hover:bg-[#76b8d4] cursor-pointer"
             >
               {sound}
             </li>

@@ -279,9 +279,36 @@ function App() {
     URL.revokeObjectURL(url);
   };
 
+  const stars = Array.from({ length: 50 }, (_, i) => ({
+    id: i,
+    top: Math.random() * 100,
+    left: Math.random() * 100,
+    size: Math.random() * 0.5 + 0.5, // for font size
+    delay: Math.random() * 3,
+    speed: ['animate-float', 'animate-float-slow', 'animate-float-fast'][Math.floor(Math.random() * 3)],
+  }));
+  
   return (
     
     <div className="min-h-screen bg-[#3b2261] text-white flex flex-col p-10">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        {stars.map(star => (
+          <div
+            key={star.id}
+            className={`absolute text-white animate-twinkle ${star.speed}`}
+            style={{
+              top: `${star.top}%`,
+              left: `${star.left}%`,
+              fontSize: `${star.size}rem`,
+              animationDelay: `${star.delay}s`,
+              color: '#ddc2fc',
+              textShadow: '0 0 10px #ddc2fc, 0 0 20px #ddc2fc',
+            }}
+          >
+            ✧
+          </div>
+        ))}
+      </div>
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}

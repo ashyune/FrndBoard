@@ -3,21 +3,24 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      animation: {
+        'twinkle': 'twinkle 3s ease-in-out infinite',
+        'float': 'float 20s linear infinite',
+        'float-slow': 'float 30s linear infinite',
+        'float-fast': 'float 15s linear infinite',
+      },
       keyframes: {
-        glow: {
-          '0%, 100%': { textShadow: '0 0 1px #B2D8CE, 0 0 2px #B2D8CE, 0 0 3px #B2D8CE' },
-          '50%': { textShadow: '0 0 2px #B2D8CE, 0 0 3px #B2D8CE, 0 0 4px #B2D8CE' },
+        twinkle: {
+          '0%, 100%': { opacity: '0.3' },
+          '50%': { opacity: '1' },
         },
         float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-3px)' },
-        },
-      },
-      animation: {
-        glow: 'glow 3s ease-in-out infinite',
-        float: 'float 3s ease-in-out infinite',
-      },
+          '0%': { transform: 'translateY(0) translateX(0)' },
+          '50%': { transform: 'translateY(-20px) translateX(10px)' },
+          '100%': { transform: 'translateY(0) translateX(0)' },
+        }
+      }
     },
   },
   plugins: [],
-};
+}

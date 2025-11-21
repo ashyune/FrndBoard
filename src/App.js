@@ -11,11 +11,14 @@ function App() {
 
   const empty_col = [null, null, null, null];
   const [tracks, setTracks] = useState([Array(4).fill(null)]);
-  const [sounds, setSounds] = useState(["Meow", "Woof"]);
+  const [sounds, setSounds] = useState(["Meow", "Woof1", "Woof2", "Moo"]);
+  const [uploadedSounds, setUploadedSounds] = useState([]);
 
   const soundFiles = {
     Meow: "/sounds/meow.mp3",
-    Woof: "/sounds/woof.mp3",
+    Woof1: "/sounds/woof1.mp3",
+    Woof2: "/sounds/woof2.mp3",
+    Moo: "/sounds/moo.mp3",
   };
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -169,7 +172,7 @@ function App() {
       [file.name]: decoded,
     }));
 
-    setSounds(prev => [...prev, file.name]);
+    setUploadedSounds(prev => [file.name, ...prev]);
     console.log("Uploaded:", file.name);
   };
 
@@ -316,6 +319,7 @@ function App() {
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         sounds={sounds}
+        uploadedSounds={uploadedSounds}
         handleUpload={handleUpload}
       />
 

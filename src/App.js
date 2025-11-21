@@ -1,20 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import Sidebar from "./components/Sidebar";
 import LetterAnim from "./components/LetterAnim";
+import Instructions from "./components/Instructions";
 
 import toWav from "audiobuffer-to-wav";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [instructionsOpen, setInstructionsOpen] = useState(true);
 
   const empty_col = [null, null, null, null];
   const [tracks, setTracks] = useState([Array(4).fill(null)]);
-  const [sounds, setSounds] = useState(["Meow", "Woof", "Moo"]);
+  const [sounds, setSounds] = useState(["Meow", "Woof"]);
 
   const soundFiles = {
     Meow: "/sounds/meow.mp3",
     Woof: "/sounds/woof.mp3",
-    Moo: "/sounds/moo.mp3",
   };
 
   const [currentStep, setCurrentStep] = useState(0);
@@ -318,6 +319,19 @@ function App() {
         handleUpload={handleUpload}
       />
 
+      <Instructions
+        isOpen={instructionsOpen}
+        onClose={() => setInstructionsOpen(false)}
+      />
+
+      <button
+        onClick={() => setInstructionsOpen(true)}
+        className="fixed top-8 right-4 bg-[#5B9BB5] hover:bg-[#76b8d4] text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl font-bold shadow-lg z-40"
+        title="Instructions"
+      >
+        ?
+      </button>
+
       <div className="flex justify-center mb-5">
         <LetterAnim text="FrndBoard" />
       </div>
@@ -350,7 +364,7 @@ function App() {
         <button
           onClick={toggleLoop}
             className={`font-bold text-white px-4 py-2 rounded transition-colors
-              ${isLooping ? "bg-[#5B9BB5] hover:bg-[#76b8d4]" : "bg-[#5B9BB5] hover:bg-[#76b8d4]"}
+              ${isLooping ? "bg-[#6ec3cc] hover:bg-[#78d6d3]" : "bg-[#5B9BB5] hover:bg-[#76b8d4]"}
             `}
         >
           {isLooping ? "Stop Loop" : "Loop"}

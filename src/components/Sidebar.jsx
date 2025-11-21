@@ -2,10 +2,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sounds, handleUpload }) {
   return (
     <>
       {/* menu button */}
-      <div className="flex items-center mb-6">
+      <div className="flex items-center mb-6 mt-4">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 bg-[#2a1a47] rounded hover:bg-[#2f1d4f] mr-4"
+          className="p-2 bg-[#5B9BB5] hover:bg-[#76b8d4] rounded-sm mr-4"
         >
           <div className="w-6 h-0.5 bg-white mb-1"></div>
           <div className="w-6 h-0.5 bg-white mb-1"></div>

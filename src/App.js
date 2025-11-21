@@ -191,76 +191,73 @@ function App() {
     setCurrentStep(0);
   };
 
-  const exportWav = () => {
+  const exportWav = async () => {
     if(tracks.length === 0) return;
-    const sampleRate = audioContext.current.sampleRate;
-    const numChannels = 1;
-    const totalLength = Math.ceil(tracks.length * beat_duration * sampleRate);
-    const finalBuffer = audioContext.current.createBuffer(numChannels, totalLength, sampleRate);
+    
+    const sampleRate = 48000; // Use standard sample rate
+    const duration = tracks.length * beat_duration;
+    const offlineContext = new OfflineAudioContext(1, Math.ceil(duration * sampleRate), sampleRate);
 
+    // Render all sounds with proper pitch shifting
     for (let colIndex = 0; colIndex < tracks.length; colIndex++) {
       const column = tracks[colIndex];
-      column.forEach((soundName, rowIndex) => {
-        if (!soundName) return;
-        const sourceBuffer = audioBuffers[soundName];
-        if (!sourceBuffer) return;
+      for (let rowIndex = 0; rowIndex < column.length; rowIndex++) {
+        const soundName = column[rowIndex];
+        if (!soundName) continue;
 
+        const buffer = audioBuffers[soundName];
+        if (!buffer) continue;
+
+        const source = offlineContext.createBufferSource();
+        source.buffer = buffer;
         const playbackRate = Math.pow(2, semitonesPerRow[rowIndex] / 12);
-        const startSample = Math.floor(colIndex * beat_duration * sampleRate);
-
-        for (let channel = 0; channel < Math.min(sourceBuffer.numberOfChannels, numChannels); channel++) {
-          const inputData = sourceBuffer.getChannelData(channel);
-          const outputData = finalBuffer.getChannelData(channel);
-
-          for (let i = 0; i < inputData.length; i++) {
-            const j = startSample + i;
-            if (j < outputData.length) {
-              outputData[j] += inputData[i]; // simple additive mixing
-            }
-          }
-        }
-      });
+        source.playbackRate.value = playbackRate;
+        source.connect(offlineContext.destination);
+        source.start(colIndex * beat_duration);
+      }
     }
-    
-    const wavArrayBuffer = toWav(finalBuffer);
+
+    const renderedBuffer = await offlineContext.startRendering();
+    const wavArrayBuffer = toWav(renderedBuffer);
     const blob = new Blob([wavArrayBuffer], { type: "audio/wav" });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement("a");
     a.href = url;
-    a.download = "frndboard_export.wav";
+    a.download = "waow.wav";
     a.click();
     URL.revokeObjectURL(url);
   };
 
-  const exportMp3 = () => {
+  const exportMp3 = async () => {
     if(tracks.length === 0) return;
 
-    const sampleRate = audioContext.current.sampleRate;
-    const numChannels = 1;
-    const totalLength = Math.ceil(tracks.length * beat_duration * sampleRate);
-    const buffer = audioContext.current.createBuffer(numChannels, totalLength, sampleRate);
-    
+    const sampleRate = 48000; // Use standard sample rate
+    const duration = tracks.length * beat_duration;
+    const offlineContext = new OfflineAudioContext(1, Math.ceil(duration * sampleRate), sampleRate);
+
+    // Render all sounds with proper pitch shifting
     for (let colIndex = 0; colIndex < tracks.length; colIndex++) {
       const column = tracks[colIndex];
-      column.forEach((soundName, rowIndex) => {
-        if (!soundName) return;
-        const srcBuffer = audioBuffers[soundName];
-        if (!srcBuffer) return;
+      for (let rowIndex = 0; rowIndex < column.length; rowIndex++) {
+        const soundName = column[rowIndex];
+        if (!soundName) continue;
 
-        const startSample = Math.floor(colIndex * beat_duration * sampleRate);
+        const buffer = audioBuffers[soundName];
+        if (!buffer) continue;
+
+        const source = offlineContext.createBufferSource();
+        source.buffer = buffer;
         const playbackRate = Math.pow(2, semitonesPerRow[rowIndex] / 12);
-
-        for (let i = 0; i < srcBuffer.length; i++) {
-          const sampleIndex = startSample + Math.floor(i / playbackRate);
-          if (sampleIndex < buffer.length) {
-            buffer.getChannelData(0)[sampleIndex] += srcBuffer.getChannelData(0)[i];
-          }
-        }
-      });
+        source.playbackRate.value = playbackRate;
+        source.connect(offlineContext.destination);
+        source.start(colIndex * beat_duration);
+      }
     }
 
-    const pcmData = buffer.getChannelData(0);
+    const renderedBuffer = await offlineContext.startRendering();
+    const pcmData = renderedBuffer.getChannelData(0);
+    
     const mp3Encoder = new window.lamejs.Mp3Encoder(1, sampleRate, 128);    
     const chunkSize = 1152;
     let mp3Data = [];
@@ -278,7 +275,7 @@ function App() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "FrndBoardExport.mp3";
+    a.download = "waow.mp3";
     a.click();
     URL.revokeObjectURL(url);
   };

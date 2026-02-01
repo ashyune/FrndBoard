@@ -430,11 +430,17 @@ function App() {
                   
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => {
+                  e.preventDefault();
                   const droppedSound = e.dataTransfer.getData("text/plain");
                   playSound(droppedSound, rowIndex);
-                  const newTracks = [...tracks];
-                  newTracks[colIndex][rowIndex] = droppedSound;
-                  setTracks(newTracks);
+
+                  setTracks(prev => {
+                    const newTracks = [...prev];
+                    newTracks[colIndex][rowIndex] = droppedSound;
+                    return newTracks;
+                  });
+
+                  setSidebarOpen(true);
                 }}
                 onClick={() => {
                   const sound = tracks[colIndex][rowIndex];

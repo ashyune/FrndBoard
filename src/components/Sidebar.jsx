@@ -1,4 +1,10 @@
 function Sidebar({ sidebarOpen, setSidebarOpen, sounds, uploadedSounds, handleUpload, onOpenTrimming}) {
+  
+  const handleDragStart = (e, sound) => {
+    e.dataTransfer.setData("text/plain", sound);
+    setSidebarOpen(false);
+  }
+  
   return (
     <>
       <div className="flex items-center mb-6 mt-4">
@@ -43,7 +49,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sounds, uploadedSounds, handleUp
                 <li
                   key={`uploaded-${index}`}
                   draggable
-                  onDragStart={(e) => e.dataTransfer.setData("text/plain", sound)}
+                  onDragStart={(e) => handleDragStart(e,sound)}
                   className="bg-[#5B9BB5] p-2 my-1 rounded hover:bg-[#76b8d4] cursor-pointer"
                 >
                   {sound}
@@ -60,7 +66,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sounds, uploadedSounds, handleUp
             <li
               key={`sample-${index}`}
               draggable
-              onDragStart={(e) => e.dataTransfer.setData("text/plain", sound)}
+              onDragStart={(e) => handleDragStart(e, sound)}
               className="bg-[#5B9BB5] p-2 my-1 rounded hover:bg-[#76b8d4] cursor-pointer"
             >
               {sound}

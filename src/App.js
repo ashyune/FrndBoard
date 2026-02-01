@@ -2,12 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import Sidebar from "./components/Sidebar";
 import LetterAnim from "./components/LetterAnim";
 import Instructions from "./components/Instructions";
+import Trimming from "./components/Trimming";
+
+import WaveSurfer from "wavesurfer.js";
+import Regions from 'wavesurfer.js/dist/plugins/regions.esm.js'
 
 import toWav from "audiobuffer-to-wav";
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [instructionsOpen, setInstructionsOpen] = useState(true);
+  const [trimmingOpen, setTrimmingOpen] = useState(false);
 
   const [tracks, setTracks] = useState([Array(4).fill(null)]);
   const [sounds, setSounds] = useState(["Meow", "Woof1", "Woof2", "Moo"]);
@@ -324,11 +329,17 @@ function App() {
         sounds={sounds}
         uploadedSounds={uploadedSounds}
         handleUpload={handleUpload}
+        onOpenTrimming={() => setTrimmingOpen(true)}
       />
 
       <Instructions
         isOpen={instructionsOpen}
         onClose={() => setInstructionsOpen(false)}
+      />
+
+      <Trimming 
+        isOpen={trimmingOpen}
+        onClose={() => setTrimmingOpen(false)}
       />
 
       <button

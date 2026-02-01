@@ -1,4 +1,4 @@
-function Sidebar({ sidebarOpen, setSidebarOpen, sounds, uploadedSounds, handleUpload }) {
+function Sidebar({ sidebarOpen, setSidebarOpen, sounds, uploadedSounds, handleUpload, onOpenTrimming}) {
   return (
     <>
       <div className="flex items-center mb-6 mt-4">
@@ -26,13 +26,13 @@ function Sidebar({ sidebarOpen, setSidebarOpen, sounds, uploadedSounds, handleUp
         </button>
 
         <h2 className="text-xl font-bold mb-4">Sound Tracks :&gt;</h2>
-
-        <input
-          type="file"
-          accept="audio/*"
-          onChange={handleUpload}
-          className="my-3"
-        />
+        
+        <button
+          onClick={onOpenTrimming}
+          className="w-full bg-[#5B9BB5] hover:bg-[#76b8d4] text-white font-bold py-2 rounded mb-4"
+        >
+          Trim & Upload Audio
+        </button>
 
         {/* Uploaded tracks */}
         {uploadedSounds.length > 0 && (

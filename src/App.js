@@ -182,6 +182,21 @@ function App() {
     console.log("Uploaded:", file.name);
   };
 
+  const handleSaveAudio = async(file) => {
+    if (!file) return;
+
+    const arrayBuffer = await file.arrayBuffer();
+    const decoded = await audioContext.current.decodeAudioData(arrayBuffer);
+
+    setAudioBuffers(prev => ({
+      ...prev,
+      [file.name]: decoded,
+    }));
+
+    setUploadedSounds(prev => [file.name, ...prev]);
+
+    console.log("Saved trimmed audio: ", file.name);
+  }
   const startVisualPlayhead = () => {
     if (playbackInterval.current) return;
 
@@ -340,6 +355,7 @@ function App() {
       <Trimming 
         isOpen={trimmingOpen}
         onClose={() => setTrimmingOpen(false)}
+        onSaveAudio={handleSaveAudio}
       />
 
       <button

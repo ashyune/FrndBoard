@@ -1,4 +1,8 @@
-function Trimming({ isOpen, onClose, handleUpload }) {
+import { useState } from "react";
+
+function Trimming({ isOpen, onClose, onSaveAudio }) {
+  const [selectedFile, setSelectedFile] = useState(null);
+
   if (!isOpen) return null;
 
 return (
@@ -14,13 +18,17 @@ return (
             <input
             type="file"
             accept="audio/*"
-            onChange={handleUpload}
+            onChange={(e) => setSelectedFile(e.target.files[0])}
             className="my-3"
             />
             {/*this currently only has the upload button but the uploads dont actually get uploaded yet. trimming not added either.*/}
             <div className="mt-8 text-center">
                 <button
-                    onClick={onClose}
+                    onClick={() => {
+                        if(!selectedFile) return;
+                        onSaveAudio(selectedFile);
+                        onClose();
+                    }}
                     className="bg-[#5B9BB5] hover:bg-[#76b8d4] font-bold font-xl text-white px-8 py-3 rounded"
                 >
                     Save Trimmed Audio and Close
